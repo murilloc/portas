@@ -1,27 +1,38 @@
-import Porta from "../components/Porta";
-import PortaModel from "../model/portaModel";
+import {Cartao} from "@/components/Cartao";
+import styles from '../styles/Formulario.module.css'
+import Link from "next/link";
+import EntradaNumerica from "@/components/EntradaNumerica";
 import {useState} from "react";
-import {log} from "util";
-import {atualizarPortas, criarPortas} from "@/functions/portas";
 
-export default function Home() {
+export default function Formulario() {
 
-    const [portas, setPortas] = useState(criarPortas(4, 3))
-
-
-    function renderizarPortas() {
-        return portas.map(porta => {
-            return <Porta
-                key={porta.numero}
-                value={porta}
-                onChange={novaPorta => setPortas(atualizarPortas(portas, novaPorta))}/>
-        })
-    }
-
+    const [qtdePortas, setQtdePortas] = useState(3)
+    const [comPresente, setComPresente] = useState(1)
 
     return (
-        <div style={{display: "flex", flexDirection: "row"}}>
-            {renderizarPortas()}
+        <div className={styles.formulario}>
+            <div>
+                <Cartao bgcolor={"#c0392c"}>
+                    <h1>Monty Hall</h1>
+                </Cartao>
+                <Cartao>
+                    <EntradaNumerica value={qtdePortas} text={"Qtde Portas"}
+                                     onChange={novaQtde => setQtdePortas(novaQtde)}/>
+                </Cartao>
+            </div>
+            <div>
+                <Cartao>
+                    <EntradaNumerica value={comPresente}
+                                     onChange={novaPortaComPresente => setComPresente(novaPortaComPresente)}
+                                     text={"Porta com Presente"}/>
+                </Cartao>
+                <Cartao bgcolor={"#28a085"}>
+                    <Link href={`/jogo/${qtdePortas}/${comPresente}`}>
+                        <h2 className={styles.link}>Iniciar</h2>
+                    </Link>
+                </Cartao>
+            </div>
+
         </div>
     )
 }
