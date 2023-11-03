@@ -8,9 +8,10 @@ import PortaModel from "@/model/portaModel";
 
 export default function TemPresente() {
 
-    const [portas , setPortas] = useState([])
-
     const router = useRouter()
+    const [portas, setPortas] = useState([])
+    const [valido, setValido] = useState(false)
+
 
     useEffect(() => {
         if (router.query.portas && router.query.temPresente) {
@@ -21,6 +22,18 @@ export default function TemPresente() {
             setPortas(novaPorta)
         }
     }, [router?.query])
+
+    useEffect(() => {
+        if (router.query.portas && router.query.temPresente) {
+            const portas = +router.query.portas
+            const temPresente = +router.query.temPresente
+            const qtdePortasValidas = portas >= 3 && portas <= 100
+            const temPresenteValido = temPresente >= 1 && temPresente <= portas
+            setValido(qtdePortasValidas && temPresenteValido)
+        } else {
+            setValido(false)
+        }
+    }, [portas])
 
 
     function renderizarPortas() {
@@ -35,7 +48,7 @@ export default function TemPresente() {
     return (
         <div id={styles.jogo}>
             <div className={styles.portas}>
-                {renderizarPortas()}
+                {valido && renderizarPortas() && portas.length > 0 ? renderizarPortas() : <h1>Valores Inválidos</h1>}
             </div>
             <div className={styles.botoes}>
                 <Link href={'/'}>
