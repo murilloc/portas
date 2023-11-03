@@ -9,7 +9,7 @@ import PortaModel from "@/model/portaModel";
 export default function TemPresente() {
 
     const router = useRouter()
-    const [portas, setPortas] = useState([])
+    const [portas, setPortas] = useState<any>([])
     const [valido, setValido] = useState(false)
 
 
@@ -37,7 +37,7 @@ export default function TemPresente() {
 
 
     function renderizarPortas() {
-        return portas.map(porta => {
+        return portas.map((porta: PortaModel) => {
             return <Porta
                 key={porta.numero}
                 value={porta}
